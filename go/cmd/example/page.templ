@@ -1,0 +1,28 @@
+package main
+
+import "github.com/hiaaryan/sileo/go"
+
+templ Page() {
+	<!DOCTYPE html>
+	<html lang="en">
+		<head>
+			<meta charset="UTF-8"/>
+			<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+			<title>Sileo Go/templ demo</title>
+			@sileo.CSS()
+		</head>
+		<body style="font-family:system-ui,sans-serif;padding:2rem;background:#111;color:#fff;">
+			@sileo.Toaster(sileo.ToasterProps{Position: sileo.PositionTopRight, Theme: sileo.ThemeDark})
+			<h1>Sileo Go/templ port</h1>
+			<div style="display:flex;gap:0.5rem;flex-wrap:wrap;">
+				<button onclick="sileo.success({id:'success-demo', title:'Saved', description:'Your changes were saved successfully.'})">Success + desc</button>
+				<button onclick="sileo.error({id:'error-demo', title:'Failed', description:'Something went wrong.'})">Error + desc</button>
+				<button onclick="sileo.warning({id:'warning-demo', title:'Heads up', description:'This is a warning message.'})">Warning + desc</button>
+				<button onclick="sileo.info({id:'info-demo', title:'FYI', description:'This toast has a longer description and a button.', button:{label:'Undo', action:&quot;console.log('undo')&quot;}})">Info + button</button>
+				<button onclick="sileo.action({id:'action-demo', title:'View', description:'Click to open the linked action.'})">Action + desc</button>
+				<button onclick="sileo.clear()">Clear all</button>
+			</div>
+			@sileo.JS()
+		</body>
+	</html>
+}

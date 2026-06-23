@@ -1,0 +1,53 @@
+package sileo
+
+import "fmt"
+
+func viewportStyle(offset Offset, pos Position) string {
+	var all string
+	if offset.All != nil {
+		all = *offset.All
+	}
+	s := ""
+	px := func(v *string) string {
+		if v != nil {
+			return *v
+		}
+		return all
+	}
+	if pos == PositionTopLeft || pos == PositionTopCenter || pos == PositionTopRight {
+		if v := px(offset.Top); v != "" {
+			s += fmt.Sprintf("top:%s;", v)
+		}
+	} else {
+		if v := px(offset.Bottom); v != "" {
+			s += fmt.Sprintf("bottom:%s;", v)
+		}
+	}
+	switch pos {
+	case PositionTopLeft, PositionBottomLeft:
+		if v := px(offset.Left); v != "" {
+			s += fmt.Sprintf("left:%s;", v)
+		}
+	case PositionTopRight, PositionBottomRight:
+		if v := px(offset.Right); v != "" {
+			s += fmt.Sprintf("right:%s;", v)
+		}
+	}
+	return s
+}
+
+templ Viewport(pos Position, items []Item, offset Offset, theme string) {
+	<section
+		data-sileo-viewport=""
+		data-position={ string(pos) }
+		if theme != "" {
+			data-theme={ theme }
+		}
+		aria-live="polite"
+		style={ viewportStyle(offset, pos) }
+	>
+		for _, item := range items {
+			@SileoToast(item)
+		}
+	</section>
+}
